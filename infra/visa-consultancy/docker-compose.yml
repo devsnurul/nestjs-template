@@ -1,0 +1,37 @@
+services:
+  visaprimeapi:
+    image: ghcr.io/expertsquad/visa-consultancy-api-server/visa-consultancy-api-server:latest
+
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    expose:
+      - '5000'
+
+    volumes:
+      - visaprimeapi_public:/app/public
+
+    networks:
+      - backend
+      - proxy
+
+    command: >
+      sh -c "
+        echo '⏳ Waiting for database...' &&
+        until nc -z postgres 5432; do sleep 1; done &&
+        echo '🚀 Running Prisma migrations...' &&
+        npx prisma migrate deploy &&
+        echo '🚀 Starting server...' &&
+        npm run start:prod
+      "
+
+volumes:
+  visaprimeapi_public:
+
+networks:
+  backend:
+    external: true
+  proxy:
+    external: true

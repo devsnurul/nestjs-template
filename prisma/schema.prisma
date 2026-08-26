@@ -1,0 +1,155 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  B2B_AGENT
+  STUDENT
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum AccessMode {
+  PRIVATE
+  PUBLIC_READ
+  HYBRID
+}
+
+model User {
+  id String @id @default(cuid())
+
+  firstName String
+  lastName  String?
+  email     String  @unique
+  phone     String? @unique
+  password  String
+
+  profilePhoto     String?  @unique
+  profilePhotoSize Int?
+
+  role   UserRole
+  status UserStatus @default(ACTIVE)
+
+  roleAssignments RoleAssignment[]
+  storedObjects   StoredObject[]
+  sessions        Session[]
+
+  resetToken       String?
+  resetTokenExpiry DateTime?
+
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+
+
+model StoredObject {
+  id String @id @default(cuid())
+
+  bucketName String
+  fileKey    String @unique
+
+  field String // profile photo, document, etc.
+
+  originalName String
+  extension    String?
+  mimeType     String
+  size         BigInt
+
+  etag     String?
+  checksum String?
+
+  entityType String?
+  entityId   String?
+
+  tags     String[]
+  metadata Json?
+
+  uploaderId String?
+  uploader   User?   @relation(fields: [uploaderId], references: [id], onDelete: SetNull)
+
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([bucketName, fileKey])
+  @@index([entityType, entityId])
+  @@map("stored_objects")
+}
+
+model Session {
+  id               String   @id @default(cuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshTokenHash String   @unique
+  jti              String   @unique
+  deviceInfo       String?
+  ipAddress        String?
+  userAgent        String?
+  lastActivity     DateTime @default(now())
+  expiresAt        DateTime
+  createdAt        DateTime @default(now())
+  revokedAt        DateTime?
+
+  @@map("sessions")
+}
+
+model Role {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String   @default("")
+  isSystem    Boolean  @default(false)
+  rules       String[]
+
+  userAssignments RoleAssignment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("roles")
+}
+
+model DocumentCategory {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  sortOrder   Int      @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("document_categories")
+}
+
+model RoleAssignment {
+  userId String
+  roleId String
+
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roleId])
+  @@map("role_assignments")
+}
