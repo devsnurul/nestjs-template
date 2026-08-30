@@ -56,7 +56,8 @@ export const ModelName = {
   Session: 'Session',
   Role: 'Role',
   RoleAssignment: 'RoleAssignment',
-  Log: 'Log'
+  Log: 'Log',
+  Otp: 'Otp'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -86,6 +87,7 @@ export const UserScalarFieldEnum = {
   profilePhotoSize: 'profilePhotoSize',
   role: 'role',
   status: 'status',
+  phoneVerifiedAt: 'phoneVerifiedAt',
   resetToken: 'resetToken',
   resetTokenExpiry: 'resetTokenExpiry',
   deletedAt: 'deletedAt',
@@ -173,6 +175,21 @@ export const LogScalarFieldEnum = {
 } as const
 
 export type LogScalarFieldEnum = (typeof LogScalarFieldEnum)[keyof typeof LogScalarFieldEnum]
+
+
+export const OtpScalarFieldEnum = {
+  id: 'id',
+  phone: 'phone',
+  codeHash: 'codeHash',
+  purpose: 'purpose',
+  userId: 'userId',
+  expiresAt: 'expiresAt',
+  attempts: 'attempts',
+  consumedAt: 'consumedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type OtpScalarFieldEnum = (typeof OtpScalarFieldEnum)[keyof typeof OtpScalarFieldEnum]
 
 
 export const SortOrder = {

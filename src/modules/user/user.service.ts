@@ -32,6 +32,7 @@ export class UserService {
       [UserRole.ADMIN]: 'admin',
       [UserRole.B2B_AGENT]: 'b2b_agent',
       [UserRole.STUDENT]: 'student',
+      [UserRole.APPLICANT]: 'applicant',
     };
     return map[role];
   }

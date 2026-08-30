@@ -7,6 +7,8 @@ import { RefreshDto } from './dto/refresh.dto';
 import { LogoutDto } from './dto/logout.dto';
 import { ForgetPasswordDto } from './dto/forget-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { RequestOtpDto } from './dto/request-otp.dto';
+import { VerifyOtpDto } from './dto/verify-otp.dto';
 import type { Request, Response } from 'express';
 import { Public } from 'src/decorators/public.decorator';
 
@@ -70,6 +72,41 @@ export class AuthController {
     const token = dto.refreshToken ?? req.cookies?.[REFRESH_TOKEN_COOKIE];
     await this.authService.logout(token);
     res.clearCookie(REFRESH_TOKEN_COOKIE, { path: '/api/v1/auth' });
+  }
+
+  @Public()
+  @Post('applicant/request-otp')
+  async requestApplicantOtp(@Body() dto: RequestOtpDto) {
+    return this.authService.requestApplicantOtp(dto.phone);
+  }
+
+  @Public()
+  @Post('applicant/resend-otp')
+  async resendApplicantOtp(@Body() dto: RequestOtpDto) {
+    return this.authService.resendApplicantOtp(dto.phone);
+  }
+
+  @Public()
+  @Post('applicant/verify-otp')
+  async verifyApplicantOtp(
+    @Body() dto: VerifyOtpDto,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const result = await this.authService.verifyApplicantOtp(
+      dto.phone,
+      dto.code,
+      {
+        ipAddress: req.ip,
+        userAgent: req.get('user-agent'),
+      },
+    );
+    res.cookie(
+      REFRESH_TOKEN_COOKIE,
+      result.refreshToken,
+      cookieOptions(604800),
+    );
+    return result;
   }
 
   @Public()

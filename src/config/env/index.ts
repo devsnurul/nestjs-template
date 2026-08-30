@@ -100,4 +100,15 @@ export const env = {
     flushIntervalMs: toInt(process.env.SMS_FLUSH_INTERVAL_MS, 1000),
     queueTtl: toInt(process.env.SMS_QUEUE_TTL, 3600),
   },
+
+  otp: {
+    length: toInt(process.env.OTP_LENGTH, 6),
+    expirySeconds: toInt(process.env.OTP_EXPIRY_SECONDS, 300),
+    requestCooldownSeconds: toInt(process.env.OTP_REQUEST_COOLDOWN_SECONDS, 30),
+    maxAttempts: toInt(process.env.OTP_MAX_ATTEMPTS, 5),
+    defaultCountry: process.env.OTP_DEFAULT_COUNTRY ?? 'BD',
+    smsTemplate:
+      process.env.OTP_SMS_TEMPLATE ??
+      'Your verification code is {{otp}}. It will expire in {{expiry_minutes}} minutes.',
+  },
 };

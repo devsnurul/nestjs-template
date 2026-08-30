@@ -17,6 +17,8 @@ import { RedisModule } from './lib/redis/redis.module';
 import { BullmqModule } from './lib/bullmq/bullmq.module';
 import { LoggerModule } from './lib/logger';
 import { SmsModule } from './lib/sms';
+import { PhoneModule } from './lib/phone';
+import { OtpModule } from './lib/otp';
 
 @Module({
   imports: [
@@ -43,6 +45,8 @@ import { SmsModule } from './lib/sms';
     BullmqModule,
     LoggerModule,
     SmsModule,
+    PhoneModule,
+    OtpModule,
     TokenModule,
     ObjectManagerModule,
     FileReaderModule,

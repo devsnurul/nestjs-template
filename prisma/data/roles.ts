@@ -41,4 +41,11 @@ export const roles: RoleData[] = [
     isSystem: true,
     rules: ['dashboard:read', 'document:*'],
   },
+  {
+    name: 'Applicant',
+    slug: 'applicant',
+    description: 'Self-service applicant access',
+    isSystem: true,
+    rules: ['dashboard:read', 'document:read'],
+  },
 ];

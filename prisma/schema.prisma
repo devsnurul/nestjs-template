@@ -17,6 +17,7 @@ enum UserRole {
   ADMIN
   B2B_AGENT
   STUDENT
+  APPLICANT
 }
 
 enum UserStatus {
@@ -42,9 +43,9 @@ model User {
 
   firstName String
   lastName  String?
-  email     String  @unique
+  email     String?  @unique
   phone     String? @unique
-  password  String
+  password  String?
 
   profilePhoto     String?  @unique
   profilePhotoSize Int?
@@ -52,9 +53,12 @@ model User {
   role   UserRole
   status UserStatus @default(ACTIVE)
 
+  phoneVerifiedAt DateTime?
+
   roleAssignments RoleAssignment[]
   storedObjects   StoredObject[]
   sessions        Session[]
+  otps            Otp[]
 
   resetToken       String?
   resetTokenExpiry DateTime?
@@ -167,4 +171,22 @@ model Log {
   @@index([userId])
   @@index([createdAt])
   @@map("logs")
+}
+
+model Otp {
+  id        String   @id @default(cuid())
+  phone     String
+  codeHash  String
+  purpose   String
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  expiresAt  DateTime
+  attempts   Int      @default(0)
+  consumedAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@index([phone, purpose, consumedAt])
+  @@map("otps")
 }

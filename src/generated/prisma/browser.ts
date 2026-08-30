@@ -47,3 +47,8 @@ export type RoleAssignment = Prisma.RoleAssignmentModel
  * 
  */
 export type Log = Prisma.LogModel
+/**
+ * Model Otp
+ * 
+ */
+export type Otp = Prisma.OtpModel
