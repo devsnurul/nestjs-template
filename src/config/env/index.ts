@@ -73,7 +73,6 @@ export const env = {
       (process.env.STORAGE_ACCESS_MODE as
         'private' | 'public-read' | 'hybrid') ?? 'private',
   },
-
   socket: {
     path: process.env.SOCKET_PATH ?? '/socket.io',
     namespace: process.env.SOCKET_NAMESPACE ?? '/',
@@ -85,5 +84,11 @@ export const env = {
         .map((s) => s.trim()),
     },
     useRedisAdapter: process.env.SOCKET_REDIS_ADAPTER === 'true',
+  },
+
+  log: {
+    batchSize: toInt(process.env.LOG_BATCH_SIZE, 50),
+    flushIntervalMs: toInt(process.env.LOG_FLUSH_INTERVAL_MS, 2000),
+    queueTtl: toInt(process.env.LOG_QUEUE_TTL, 86400),
   },
 };

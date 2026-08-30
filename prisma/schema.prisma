@@ -24,6 +24,13 @@ enum UserStatus {
   INACTIVE
 }
 
+enum LogLevel {
+  DEBUG
+  INFO
+  WARN
+  ERROR
+}
+
 enum AccessMode {
   PRIVATE
   PUBLIC_READ
@@ -139,4 +146,25 @@ model RoleAssignment {
 
   @@unique([userId, roleId])
   @@map("role_assignments")
+}
+
+model Log {
+  id         String   @id @default(cuid())
+  level      LogLevel
+  message    String
+  source     String?
+  action     String?
+  entityType String?
+  entityId   String?
+  userId     String?
+  meta       Json?
+
+  createdAt DateTime @default(now())
+
+  @@index([level])
+  @@index([source])
+  @@index([entityType, entityId])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("logs")
 }

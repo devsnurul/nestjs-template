@@ -15,6 +15,7 @@ import { ObjectManagerModule } from './helper/object-manager';
 import { SocketModule } from './lib/socket';
 import { RedisModule } from './lib/redis/redis.module';
 import { BullmqModule } from './lib/bullmq/bullmq.module';
+import { LoggerModule } from './lib/logger';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { BullmqModule } from './lib/bullmq/bullmq.module';
     // global
     RedisModule,
     BullmqModule,
+    LoggerModule,
     TokenModule,
     ObjectManagerModule,
     FileReaderModule,
