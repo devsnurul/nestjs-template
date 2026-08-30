@@ -2,9 +2,10 @@ import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient, Prisma } from '../../generated/prisma/client';
-import { LOG_QUEUE, LogEntry, LogBatchPayload } from './logger.types';
-import { env } from '../../config/env/index';
+import { PrismaClient, Prisma } from '../../../generated/prisma/client';
+import { LOG_QUEUE } from '../constants/index';
+import { LogEntry, LogBatchPayload } from '../interfaces/index';
+import { env } from '../../../config/env/index';
 
 const prisma = new PrismaClient({
   adapter: new PrismaPg({ connectionString: env.databaseUrl }),

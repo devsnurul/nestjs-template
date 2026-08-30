@@ -6,14 +6,10 @@ import {
 } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
-import {
-  LogEntry,
-  LogOptions,
-  LOG_QUEUE,
-  LogBatchPayload,
-} from './logger.types';
-import { LogLevel } from '../../generated/prisma/client';
-import { env } from '../../config/env/index';
+import { LogEntry, LogOptions, LogBatchPayload } from '../interfaces/index';
+import { LOG_QUEUE } from '../constants/index';
+import { LogLevel } from '../../../generated/prisma/client';
+import { env } from '../../../config/env/index';
 
 @Injectable()
 export class LogService implements OnModuleInit, OnModuleDestroy {

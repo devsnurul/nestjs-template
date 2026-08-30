@@ -91,4 +91,13 @@ export const env = {
     flushIntervalMs: toInt(process.env.LOG_FLUSH_INTERVAL_MS, 2000),
     queueTtl: toInt(process.env.LOG_QUEUE_TTL, 86400),
   },
+
+  sms: {
+    accountSid: process.env.TWILIO_ACCOUNT_SID ?? '',
+    authToken: process.env.TWILIO_AUTH_TOKEN ?? '',
+    from: process.env.TWILIO_FROM_NUMBER ?? '',
+    batchSize: toInt(process.env.SMS_BATCH_SIZE, 10),
+    flushIntervalMs: toInt(process.env.SMS_FLUSH_INTERVAL_MS, 1000),
+    queueTtl: toInt(process.env.SMS_QUEUE_TTL, 3600),
+  },
 };

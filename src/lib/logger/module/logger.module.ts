@@ -1,10 +1,10 @@
 import { Global, Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { BullModule } from '@nestjs/bullmq';
-import { LOG_QUEUE } from './logger.types';
-import { LogService } from './logger.service';
-import { LogProcessor } from './logger.processor';
-import { WriteLogInterceptor } from './write-log.interceptor';
+import { LOG_QUEUE } from '../constants/index';
+import { LogService } from '../services/index';
+import { LogProcessor } from '../processors/index';
+import { WriteLogInterceptor } from '../interceptors/index';
 
 @Global()
 @Module({

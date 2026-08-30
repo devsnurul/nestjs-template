@@ -6,9 +6,9 @@ import {
 } from '@nestjs/common';
 import { Observable, tap, catchError, throwError } from 'rxjs';
 import { Request, Response } from 'express';
-import { LogService } from './logger.service';
-import { TokenPayload } from '../token/token.service';
-import { LogLevel } from '../../generated/prisma/client';
+import { LogService } from '../services/index';
+import { TokenPayload } from '../../token/token.service';
+import { LogLevel } from '../../../generated/prisma/client';
 
 const WRITE_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 

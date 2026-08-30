@@ -1,4 +1,4 @@
-import type { LogLevel } from '../../generated/prisma/client';
+import type { LogLevel } from '../../../generated/prisma/client';
 
 export interface WriteLogMeta {
   model?: string;
@@ -31,5 +31,3 @@ export interface LogOptions {
 export interface LogBatchPayload {
   entries: LogEntry[];
 }
-
-export const LOG_QUEUE = 'logs';
