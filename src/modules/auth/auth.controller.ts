@@ -13,12 +13,13 @@ import type { Request, Response } from 'express';
 import { Public } from 'src/decorators/public.decorator';
 
 const REFRESH_TOKEN_COOKIE = 'refreshToken';
+const ACCESS_TOKEN_COOKIE = 'accessToken';
 
-const cookieOptions = (maxAgeSecs: number) => ({
+const cookieOptions = (maxAgeSecs: number, path = '/api/v1/auth') => ({
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production',
   sameSite: 'lax' as const,
-  path: '/api/v1/auth',
+  path,
   maxAge: maxAgeSecs * 1000,
 });
 
@@ -42,6 +43,11 @@ export class AuthController {
       result.refreshToken,
       cookieOptions(604800),
     );
+    res.cookie(
+      ACCESS_TOKEN_COOKIE,
+      result.accessToken,
+      cookieOptions(900, '/'),
+    );
     return result;
   }
 
@@ -59,6 +65,11 @@ export class AuthController {
       result.refreshToken,
       cookieOptions(604800),
     );
+    res.cookie(
+      ACCESS_TOKEN_COOKIE,
+      result.accessToken,
+      cookieOptions(900, '/'),
+    );
     return result;
   }
 
@@ -72,6 +83,7 @@ export class AuthController {
     const token = dto.refreshToken ?? req.cookies?.[REFRESH_TOKEN_COOKIE];
     await this.authService.logout(token);
     res.clearCookie(REFRESH_TOKEN_COOKIE, { path: '/api/v1/auth' });
+    res.clearCookie(ACCESS_TOKEN_COOKIE, { path: '/' });
   }
 
   @Public()
@@ -105,6 +117,11 @@ export class AuthController {
       REFRESH_TOKEN_COOKIE,
       result.refreshToken,
       cookieOptions(604800),
+    );
+    res.cookie(
+      ACCESS_TOKEN_COOKIE,
+      result.accessToken,
+      cookieOptions(900, '/'),
     );
     return result;
   }
