@@ -4,7 +4,6 @@ import { AuthModule } from './auth/auth.module';
 import { StoredObjectModule } from './stored-object/stored-object.module';
 import { SessionsModule } from './sessions/sessions.module';
 import { RbacModule } from './rbac/rbac.module';
-import { RegionModule } from './region/region.module';
 import { DocumentCategoryModule } from './document-category/document-category.module';
 
 @Module({
@@ -14,7 +13,6 @@ import { DocumentCategoryModule } from './document-category/document-category.mo
     StoredObjectModule,
     SessionsModule,
     RbacModule,
-    RegionModule,
     DocumentCategoryModule,
   ],
 })

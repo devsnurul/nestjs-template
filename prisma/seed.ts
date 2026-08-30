@@ -4,7 +4,6 @@ import bcrypt from 'bcryptjs';
 import { PrismaClient, UserStatus } from '../src/generated/prisma/client';
 import { users } from './data/users';
 import { roles } from './data/roles';
-import { documentCategories } from './data/document-categories';
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
@@ -63,28 +62,12 @@ async function assignRoles() {
   console.log('Roles assigned to users');
 }
 
-async function seedDocumentCategories() {
-  for (const cat of documentCategories) {
-    await prisma.documentCategory.upsert({
-      where: { slug: cat.slug },
-      update: {
-        name: cat.name,
-        description: cat.description,
-        sortOrder: cat.sortOrder,
-      },
-      create: cat,
-    });
-  }
-  console.log(`${documentCategories.length} document categories seeded`);
-}
-
 async function main() {
   console.log('Seeding database...');
   await seedUsers();
   await seedRoles();
   await assignRoles();
-  await seedDocumentCategories();
-
+  
   console.log('Seeding complete');
 }
 

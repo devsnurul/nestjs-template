@@ -46,7 +46,7 @@ export const env = {
     pass: process.env.MAIL_PASS ?? '',
     from: required('MAIL_FROM', '"VisaPrime" <noreply@visaprime.com>'),
   },
-  
+
   frontendUrl: required('FRONTEND_URL', 'http://localhost:3000'),
 
   redis: {

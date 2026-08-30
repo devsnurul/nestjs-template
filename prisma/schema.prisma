@@ -130,19 +130,6 @@ model Role {
   @@map("roles")
 }
 
-model DocumentCategory {
-  id          String   @id @default(cuid())
-  name        String
-  slug        String   @unique
-  description String?
-  sortOrder   Int      @default(0)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("document_categories")
-}
-
 model RoleAssignment {
   userId String
   roleId String
