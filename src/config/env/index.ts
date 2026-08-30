@@ -73,4 +73,17 @@ export const env = {
       (process.env.STORAGE_ACCESS_MODE as
         'private' | 'public-read' | 'hybrid') ?? 'private',
   },
+
+  socket: {
+    path: process.env.SOCKET_PATH ?? '/socket.io',
+    namespace: process.env.SOCKET_NAMESPACE ?? '/',
+    cors: {
+      allowedOrigins: (
+        process.env.SOCKET_CORS_ALLOWED_ORIGINS ?? 'http://localhost:3000'
+      )
+        .split(',')
+        .map((s) => s.trim()),
+    },
+    useRedisAdapter: process.env.SOCKET_REDIS_ADAPTER === 'true',
+  },
 };

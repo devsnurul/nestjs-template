@@ -12,6 +12,7 @@ import { Modules } from './modules/index';
 import { S3StorageModule } from './lib/s3-api';
 import { FileReaderModule } from './lib/file-reader/file-reader.module';
 import { ObjectManagerModule } from './helper/object-manager';
+import { SocketModule } from './lib/socket';
 import { RedisModule } from './lib/redis/redis.module';
 import { BullmqModule } from './lib/bullmq/bullmq.module';
 
@@ -41,6 +42,7 @@ import { BullmqModule } from './lib/bullmq/bullmq.module';
     TokenModule,
     ObjectManagerModule,
     FileReaderModule,
+    SocketModule,
     // guards
     AuthGuardModule,
     RbacGuardModule,
